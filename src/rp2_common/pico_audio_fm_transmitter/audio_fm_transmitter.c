@@ -356,6 +356,7 @@ void audio_fm_transmitter_set_enabled(bool enabled)
                 while (1) { }
             }
             pico_fractional_pll_set_freq_u32(freq_center);
+            pico_fractional_pll_enable_output(true);
 
             uint slice_num = 1;
             // Mask our slice's IRQ output into the PWM block's single interrupt line,
@@ -383,6 +384,7 @@ void audio_fm_transmitter_set_enabled(bool enabled)
         else {
             irq_set_enabled(PWM_IRQ_WRAP, false);
             g_curr_sample = 0;
+            pico_fractional_pll_enable_output(false);
             pico_fractional_pll_deinit();
         }
 #endif
